@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+body {
+    font-family: Cambria;
+    height: 100%;
+    background-image: linear-gradient(#4e0374, #c37ee6);
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.result-card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+</style>
+
+<div class="row" style="margin-bottom: 477px;">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+
+        {% if pred_label %}
+            <div class="card card-body {% if 'POSITIVE' in final_message %}alert alert-danger{% else %}alert alert-success{% endif %}">
+                <center>
+                    <h3 style="color: {% if 'POSITIVE' in final_message %}red{% else %}green{% endif %};">
+                        {{ final_message }}
+                    </h3>
+                    <h4><strong>Label:</strong> {{ pred_label | capitalize }}</h4>
+                    <h4><strong>Confidence:</strong> {{ pred_prob }}%</h4>
+                </center>
+            </div>
+        {% endif %}
+
+        {% if message %}
+            <div class="alert alert-danger"><center>{{ message }}</center></div>
+        {% endif %}
+
+        <div class="row mt-3">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <a href="{{ url_for('home') }}" class="btn btn-block btn-primary" style="background-color: #4e0374">
+                    Back to Home
+                </a>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+{% endblock %}

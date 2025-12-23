@@ -1,0 +1,231 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+body {
+    font-family: Cambria;
+    height: 100%;
+    background-image: linear-gradient(#4e0374, #c37ee6);
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.card {
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+}
+.btn-custom {
+    background-color:#4e0374;
+    color:white;
+    border:none;
+    width:100%;
+}
+.btn-custom:hover {
+    background-color:#360156;
+}
+.result-card {
+    background-color:#f0d0ff;
+    border:1px solid black;
+    border-radius:12px;
+    padding:20px;
+    margin-top:25px;
+    text-align:center;
+}
+.progress {
+    height:25px;
+    border-radius:12px;
+    overflow:hidden;
+}
+.table-custom {
+    background:#f9e6ff; 
+    border:1px solid black; 
+    border-radius:10px;
+}
+.table-custom th, .table-custom td {
+    border:1px solid black;
+    padding:10px;
+    text-align:center;
+}
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+            <center><h1 style="color:white; font-weight:bold;">🩺 Breast Cancer Classification</h1></center>
+
+            <!-- ===== Form Card ===== -->
+            <div class="card card-body mt-4" style="background-color:#daa8f4; border:1px solid black;">
+                <form action="{{ url_for('predictPage') }}" method="POST">
+
+                    <!-- Row 1 -->
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <input class="form-control" type="number" name="year" placeholder="Year"
+                                   style="border:1px solid black; background-color:#f0d0ff" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control" type="number" name="age" placeholder="Age"
+                                   style="border:1px solid black; background-color:#f0d0ff" required>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="menopause"
+                                    style="border:1px solid black; background-color:#f0d0ff" required>
+                                <option value="">Menopause</option>
+                                <option value="0">Premenopause</option>
+                                <option value="1">Postmenopause</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <input class="form-control" type="number" step="0.1" name="tumor_size" placeholder="Tumor Size (cm)"
+                                   style="border:1px solid black; background-color:#f0d0ff" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control" type="number" name="inv_nodes" placeholder="Inv-Nodes"
+                                   style="border:1px solid black; background-color:#f0d0ff" required>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="breast"
+                                    style="border:1px solid black; background-color:#f0d0ff" required>
+                                <option value="">Breast</option>
+                                <option value="0">Left</option>
+                                <option value="1">Right</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <select class="form-control" name="metastasis"
+                                    style="border:1px solid black; background-color:#f0d0ff" required>
+                                <option value="">Metastasis</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="breast_quadrant"
+                                    style="border:1px solid black; background-color:#f0d0ff" required>
+                                <option value="">Breast Quadrant</option>
+                                <option value="0">Upper Outer</option>
+                                <option value="1">Upper Inner</option>
+                                <option value="2">Lower Outer</option>
+                                <option value="3">Lower Inner</option>
+                                <option value="4">Central</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="history"
+                                    style="border:1px solid black; background-color:#f0d0ff" required>
+                                <option value="">Family History</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="row mt-4">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-custom">Classify</button>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ===== Result Section ===== -->
+            {% if prediction_text %}
+            <div class="result-card">
+                <h3>{{ prediction_text }}</h3>
+                <p>{{ description }}</p>
+
+                {% if benign_prob and malignant_prob %}
+                <div class="progress mt-3">
+                    <div class="progress-bar bg-success" role="progressbar"
+                         style="width: {{ benign_prob }};">
+                         Benign {{ benign_prob }}
+                    </div>
+                    <div class="progress-bar bg-danger" role="progressbar"
+                         style="width: {{ malignant_prob }};">
+                         Malignant {{ malignant_prob }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- ===== Input Table ===== -->
+                <h4 class="mt-4"><b>Entered Values</b></h4>
+                <table class="table table-custom mt-3">
+                    <tr><th>Year</th><td>{{ year }}</td></tr>
+                    <tr><th>Age</th><td>{{ age }}</td></tr>
+                    <tr>
+                        <th>Menopause</th>
+                        <td>
+                            {% if menopause == '0' %} Premenopause
+                            {% elif menopause == '1' %} Postmenopause
+                            {% else %} {{ menopause }} {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr><th>Tumor Size (cm)</th><td>{{ tumor_size }}</td></tr>
+
+                    <!-- ⭐ Tumor Stage Row -->
+                    <tr>
+                        <th>Tumor Stage</th>
+                        <td>{{ tumor_stage }}</td>
+                    </tr>
+
+                    <tr><th>Inv Nodes</th><td>{{ inv_nodes }}</td></tr>
+
+                    <tr>
+                        <th>Breast</th>
+                        <td>
+                            {% if breast == '0' %} Left
+                            {% elif breast == '1' %} Right
+                            {% else %} {{ breast }} {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Metastasis</th>
+                        <td>
+                            {% if metastasis == '0' %} No
+                            {% elif metastasis == '1' %} Yes
+                            {% else %} {{ metastasis }} {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Breast Quadrant</th>
+                        <td>
+                            {% set quad = {
+                                '0':'Upper Outer','1':'Upper Inner','2':'Lower Outer',
+                                '3':'Lower Inner','4':'Central'
+                            } %}
+                            {{ quad[breast_quadrant] if breast_quadrant in quad else breast_quadrant }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Family History</th>
+                        <td>
+                            {% if history == '0' %} No
+                            {% elif history == '1' %} Yes
+                            {% else %} {{ history }} {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-2"></div>
+    </div>
+</div>
+{% endblock %}

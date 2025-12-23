@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+{% block content %}
+{% if message %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endif %}
+<style>
+body {
+    font-family: Cambria;
+    height: 100%;
+    background-image: linear-gradient(#4e0374, #c37ee6);
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+h1 {
+  text-align: center;
+}
+</style>
+<div class="container">
+    <div class="card card-body" style="border: 1px solid black; box-shadow: 0 0 10px black; background-color: #edc8ff">
+        <h1>AI Breast Cancer Predictor: Breast Cancer Predictor</h1>
+        <br>
+        <h2>Model Accuracies:</h2>
+        <ul>
+            <li>Image-Based Ultrasound Model: <strong>85.70%</strong></li>
+            <li>Tabular Data Model: <strong>93.66%</strong></li>
+        </ul>
+
+        <br>
+        <h3>Information about Breast Cancer:</h3>
+        <div class="row">
+            <div class="col-md-12 card card-body" style="box-shadow: 0 0 5px black; margin: 5px; background-color: #daa8f4">
+                <h4>About Breast Cancer</h4>
+                <p>Breast cancer is a type of cancer that starts in the breast tissue. It can occur in both men and women, but it is far more common in women. Early detection significantly improves outcomes. Our system provides two ways to predict breast cancer:</p>
+                
+                <h5>Symptoms</h5>
+                <ul>
+                    <li>New lump in the breast or underarm (armpit)</li>
+                    <li>Thickening or swelling of part of the breast</li>
+                    <li>Irritation or dimpling of breast skin</li>
+                    <li>Redness or flaky skin in the nipple area or the breast</li>
+                    <li>Pulling in of the nipple or pain in the nipple area</li>
+                </ul>
+            </div>
+        </div>
+
+        <br>
+        <h3>Breast Cancer Prediction Models:</h3>
+
+        <div class="row">
+            <div class="col-md-6 card card-body" style="background-color: #c3a6f4; box-shadow: 0 0 5px black;">
+                <h4>1. Image-Based Ultrasound Model</h4>
+                <p>This model uses breast ultrasound images to detect:</p>
+                <ul>
+                    <li>Benign conditions</li>
+                    <li>Malignant conditions</li>
+                    <li>Normal (healthy) tissue</li>
+                </ul>
+                <p><strong>Accuracy:</strong> 85.70%</p>
+               
+            </div>
+
+            <div class="col-md-6 card card-body" style="background-color: #c3a6f4; box-shadow: 0 0 5px black;">
+                <h4>2. Tabular Data Model</h4>
+                <p>This model predicts breast cancer risk using patient clinical data such as:</p>
+                <ul>
+                    <li>Age of patient</li>
+                    <li>Tumor size and type</li>
+                    <li>Other clinical risk factors</li>
+                </ul>
+                <p><strong>Accuracy:</strong> 93.66%</p>
+             
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
