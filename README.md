@@ -6,16 +6,8 @@
 <img src="images/Sample_Web_App_Images/sample1.png" alt="My cool logo"/>
 <br>
 
-### Diabetes Predictor
-<img src="images/Sample_Web_App_Images/sample2.png" alt="My cool logo"/>
-<br>
-
 ### Breast Cancer Predictor
 <img src="images/Sample_Web_App_Images/sample3.png" alt="My cool logo"/>
-<br>
-
-### Malaria Predictor
-<img src="images/Sample_Web_App_Images/sample4.png" alt="My cool logo"/>
 <br>
 
 ### Negative Result Page
